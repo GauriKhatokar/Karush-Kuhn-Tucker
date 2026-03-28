@@ -32,10 +32,25 @@ set_bg("bg.png")
 
 
 # ---------------- INPUT ----------------
+objective_type = st.radio("Objective", ["Minimize", "Maximize"])
+view_mode = st.radio(
+    "View Mode",
+    ["📊 Full Solution (Step-by-Step)", "⚡ Quick Result Only"]
+)
 
+obj_input = st.text_input("Objective Function (Z)", "x**2 + y**2")
+constraint_input = st.text_input("Constraint (use <=, >=, =)", "x + y >= 2")
 # ---------------- PARSE ----------------
-
-
+def parse_constraint(expr):
+    if ">=" in expr:
+        left, right = expr.split(">=")
+        return sp.sympify(right) - sp.sympify(left)
+    elif "<=" in expr:
+        left, right = expr.split("<=")
+        return sp.sympify(left) - sp.sympify(right)
+    elif "=" in expr:
+        left, right = expr.split("=")
+        return sp.sympify(left) - sp.sympify(right)
 # ---------------- MAIN ----------------
 
 
