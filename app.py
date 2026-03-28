@@ -52,9 +52,21 @@ def parse_constraint(expr):
         left, right = expr.split("=")
         return sp.sympify(left) - sp.sympify(right)
 # ---------------- MAIN ----------------
+if st.button("🚀 Solve"):
 
+    try:
+        f = sp.sympify(obj_input)
+        g = parse_constraint(constraint_input)
+
+        vars = sorted(list(f.free_symbols.union(g.free_symbols)), key=lambda x: str(x))
+        lamb = sp.symbols('lambda', real=True)
+
+        # Maximize → convert to minimize
+        if objective_type == "Maximize":
+            f = -f
 
         # ---------------- LAGRANGIAN ----------------
+         L = f - lamb * g
 
         # ---------------- STATIONARITY ----------------
 
