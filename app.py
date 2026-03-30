@@ -69,10 +69,37 @@ if st.button("🚀 Solve"):
          L = f - lamb * g
 
         # ---------------- STATIONARITY ----------------
+        eqs = [sp.diff(L, v) for v in vars] + [-g]
 
+        sol = sp.solve(eqs, list(vars) + [lamb], dict=True)
+
+        if not sol:
+            st.error("No KKT solution found")
+            st.stop()
+
+        sol = sol[0]
 
         # ---------------- FULL SOLUTION ----------------
+        if view_mode == "📊 Full Solution (Step-by-Step)":
 
+            st.header("📘 Step 1: Constraint Form")
+            st.latex(sp.latex(g) + " \\geq 0")
+
+            st.header("📘 Step 2: Lagrangian")
+            st.latex(f"L = {sp.latex(f)} - \\lambda({sp.latex(g)})")
+
+            st.header("📘 Step 3: Stationarity Conditions")
+            for v in vars:
+                eq = sp.diff(L, v)
+                st.latex(f"\\frac{{\\partial L}}{{\\partial {v}}} = {sp.latex(eq)} = 0")
+
+            st.header("📘 Step 4: Solution")
+            for k, v in sol.items():
+                st.latex(f"{k} = {sp.simplify(v)}")
+
+            st.header("📘 Step 5: Constraint Check")
+            g_check = g.subs(sol)
+            st.latex(sp.latex(g_check))
 
         # ---------------- RESULT ----------------
 
