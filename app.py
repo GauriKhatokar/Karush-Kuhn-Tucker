@@ -102,9 +102,25 @@ if st.button("🚀 Solve"):
             st.latex(sp.latex(g_check))
 
         # ---------------- RESULT ----------------
+             st.header("📈 Final Answer")
 
+        numeric_vals = {}
+
+        for v in vars:
+            val = float(sol[v])
+            numeric_vals[v] = val
+            st.success(f"{v} ≈ {val:.4f}")
+
+        z_val = f.subs(sol)
+        if objective_type == "Maximize":
+            z_val = -z_val
+
+        st.info(f"Optimal Value (Z) ≈ {float(z_val):.4f}")
 
         # ---------------- QUICK MODE ----------------
+         if view_mode == "⚡ Quick Result Only":
+            st.subheader("⚡ Quick Result Summary")
+            st.write(sol)
 
 
         # ---------------- GRAPH ----------------
