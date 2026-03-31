@@ -122,4 +122,5 @@ if st.button("🚀 Solve"):
             st.subheader("⚡ Quick Result Summary")
             st.write(sol)
 
+
         # ---------------- GRAPH ----------------
